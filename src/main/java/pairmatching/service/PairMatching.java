@@ -1,5 +1,6 @@
 package pairmatching.service;
 
+import pairmatching.domain.CSVReader;
 import pairmatching.domain.Course;
 import pairmatching.domain.Group;
 import pairmatching.domain.Level;
@@ -19,6 +20,7 @@ public class PairMatching {
         this.generateService = generateService;
         this.repositoryService = repositoryService;
         initializeCourse();
+        initializeCrews();
     }
 
     public void initializeCourse() {
@@ -30,6 +32,18 @@ public class PairMatching {
 
         backend = new Course("백엔드", List.of(level1, level2, level3, level4, level5));
         frontend = new Course("백엔드", List.of(level1, level2, level3, level4, level5));
+    }
+
+    public void initializeCrews() {
+        CSVReader backReader = new CSVReader("src/main/resources/backend-crew.md");
+        for (String crew : backReader.getNames()) {
+            repositoryService.addBackend(crew);
+        }
+
+        CSVReader frontReader = new CSVReader("src/main/resources/frontend-crew.md");
+        for (String crew : frontReader.getNames()) {
+            repositoryService.addFrontend(crew);
+        }
     }
 
     public boolean existCrews(String course, String level, String mission) {
