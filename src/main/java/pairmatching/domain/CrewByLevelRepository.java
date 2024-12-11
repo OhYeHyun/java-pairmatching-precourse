@@ -1,9 +1,6 @@
 package pairmatching.domain;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public class CrewByLevelRepository {
     private static final CrewByLevelRepository instance = new CrewByLevelRepository();
@@ -52,5 +49,21 @@ public class CrewByLevelRepository {
         if (!level.containsKey(crew)) {
             level.put(crew, others);
         }
+    }
+
+    public Map<Crew, List<Crew>> getLevel(String level) {
+        if (Objects.equals(level, "레벨1")) {
+            return Collections.unmodifiableMap(level1);
+        }
+        if (Objects.equals(level, "레벨2")) {
+            return Collections.unmodifiableMap(level2);
+        }
+        if (Objects.equals(level, "레벨3")) {
+            return Collections.unmodifiableMap(level3);
+        }
+        if (Objects.equals(level, "레벨4")) {
+            return Collections.unmodifiableMap(level4);
+        }
+        return Collections.unmodifiableMap(level5);
     }
 }
