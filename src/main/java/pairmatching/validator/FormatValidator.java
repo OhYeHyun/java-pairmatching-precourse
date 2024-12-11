@@ -1,8 +1,10 @@
 package pairmatching.validator;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 public class FormatValidator {
+    private static final String DELIMITER = ",";
 
     public static String validateOption(String option) {
         if (!Objects.equals(option, "1") && !Objects.equals(option, "2") && !Objects.equals(option, "3") && !Objects.equals(option, "Q")) {
@@ -12,10 +14,11 @@ public class FormatValidator {
     }
 
     public static String[] validateCourse(String course) {
-        if (course.split(", ").length != 3) {
+        String[] parts = course.trim().split(DELIMITER, -1);
+        if (parts.length != 3) {
             throw new IllegalArgumentException("[ERROR] 형식이 잘못 입력되었습니다.");
         }
-        return course.split(", ");
+        return parts;
     }
 
     public static String validateAnswer(String answer) {
