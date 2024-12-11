@@ -1,5 +1,6 @@
 package pairmatching.view;
 
+import pairmatching.domain.Crew;
 import pairmatching.domain.Group;
 
 import java.util.List;
@@ -15,11 +16,17 @@ public class OutputView {
     }
 
     public void promptMenu() {
+        lineSpace();
         print("기능을 선택하세요.");
         print("1. 페어 매칭");
         print("2. 페어 조회");
         print("3. 페어 초기화");
         print("Q. 종료");
+    }
+
+    public void promptClear() {
+        lineSpace();
+        print("초기화 되었습니다.");
     }
 
     public void displayCourse() {
@@ -51,7 +58,7 @@ public class OutputView {
         lineSpace();
         print("페어 매칭 결과입니다.");
         for (Group group : crews) {
-            print(String.join(" : ", group.getGroup().toArray(new String[0])));
+            print(String.join(" : ", group.getGroup().stream().map(Crew::getName).toArray(String[]::new)));
         }
     }
 }
