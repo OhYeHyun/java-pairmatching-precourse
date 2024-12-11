@@ -12,10 +12,7 @@
 - Group
     - List<Crew>
 
-- FrontendRepository
-    - Map<Crew, List<Crew>>
-
-- BackendRepository
+- CrewRepository
     - Map<Crew, List<Crew>>
 
 - MatchingGenerator
