@@ -1,5 +1,6 @@
 package pairmatching.service;
 
+import pairmatching.domain.Course;
 import pairmatching.domain.CrewByLevelRepository;
 import pairmatching.domain.Group;
 
@@ -12,9 +13,10 @@ public class RepositoryService {
         this.crewByLevelRepository = crewByLevelRepository;
     }
 
-    public void update(List<Group> crews, String level) {
+    public void update(List<Group> crews, Course course, String level, String mission) {
         for (Group group : crews) {
             crewByLevelRepository.addCrewByLevel(group.getGroup(), level);
         }
+        course.findLevel(level).findMission(mission).updateCrews(crews);
     }
 }
