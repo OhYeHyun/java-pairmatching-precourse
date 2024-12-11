@@ -25,6 +25,11 @@ public class RepositoryService {
         crewByCourseRepository.addFrontend(new Crew("프론트엔드", name));
     }
 
+    public void clear() {
+        crewByCourseRepository.clear();
+        crewByLevelRepository.clear();
+    }
+
     public void update(List<Group> crews, Course course, String level, String mission) {
         for (Group group : crews) {
             crewByLevelRepository.addCrewByLevel(group.getGroup(), level);

@@ -7,6 +7,7 @@ import pairmatching.domain.Level;
 import pairmatching.domain.Mission;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 public class PairMatching {
@@ -46,7 +47,12 @@ public class PairMatching {
         }
     }
 
+    public void clearCrews() {
+        repositoryService.clear();
+    }
+
     public boolean existCrews(String course, String level, String mission) {
+        validateCourse(course, level, mission);
         if (Objects.equals(course, "백엔드")) {
             if (backend.findLevel(level).findMission(mission).existCrews()) {
                 return true;
@@ -71,7 +77,27 @@ public class PairMatching {
         }
     }
 
-    public List<Group> getResult(List<Group> groups) {
+    public List<Group> getResult() {
         return generateService.getGroups();
+    }
+
+    public boolean existCurse(String course) {
+        return Objects.equals(backend.getName(), course) || Objects.equals(frontend.getName(), course);
+    }
+
+    private void validateCourse(String course, String level, String mission) {
+        try {
+            if (!existCurse(course)) {
+                throw new NoSuchElementException();
+            }
+            if (Objects.equals(course, "백엔드")) {
+                backend.findLevel(level).findMission(mission);
+            }
+            if (Objects.equals(course, "프론트엔드")) {
+                frontend.findLevel(level).findMission(mission);
+            }
+        } catch (NoSuchElementException e) {
+            throw new IllegalArgumentException("[ERROR] : 존재하지 않는 코스입니다.");
+        }
     }
 }

@@ -24,6 +24,11 @@ public class CrewByCourseRepository {
         frontend.add(crew);
     }
 
+    public void clear() {
+        backend.clear();
+        frontend.clear();
+    }
+
     public List<Crew> getBackend() {
         return Collections.unmodifiableList(backend);
     }

@@ -17,6 +17,14 @@ public class CrewByLevelRepository {
         return instance;
     }
 
+    public void clear() {
+        level1.clear();
+        level2.clear();
+        level3.clear();
+        level4.clear();
+        level5.clear();
+    }
+
     public void addCrewByLevel(List<Crew> group, String level) {
         if (Objects.equals(level, "레벨1")) {
             addLevel(level1, group);
