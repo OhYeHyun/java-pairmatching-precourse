@@ -1,21 +1,30 @@
 package pairmatching.domain;
 
-import java.util.LinkedHashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 
 public class Level {
-    private final Map<String, List<String>> levels = new LinkedHashMap<>();
+    private final String name;
+    private final List<Mission> missions;
 
-    public Level(String level, List<String> missions) {
-        createLevelInfo(level, missions);
+    public Level(String name, List<Mission> missions) {
+        this.name = name;
+        this.missions = missions;
     }
 
-    private void createLevelInfo(String level, List<String> missions) {
-        levels.put(level, missions);
+    public Mission findMission(String name) {
+        return missions.stream()
+                .filter(mission -> Objects.equals(mission.getName(), name))
+                .findAny()
+                .get();
     }
 
-    public List<String> getMissions(String level) {
-        return levels.get(level);
+    public String getName() {
+        return name;
+    }
+
+    public List<Mission> getMissions() {
+        return Collections.unmodifiableList(missions);
     }
 }
