@@ -5,7 +5,7 @@ import java.util.Objects;
 public class FormatValidator {
 
     public static String validateOption(String option) {
-        if (!Objects.equals(option, "1") || !Objects.equals(option, "2") || !Objects.equals(option, "3") || !Objects.equals(option, "Q")) {
+        if (!Objects.equals(option, "1") && !Objects.equals(option, "2") && !Objects.equals(option, "3") && !Objects.equals(option, "Q")) {
             throw new IllegalArgumentException("[ERROR] 사용할 수 없는 기능입니다.");
         }
         return option;
