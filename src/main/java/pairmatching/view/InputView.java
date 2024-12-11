@@ -1,10 +1,11 @@
 package pairmatching.view;
 
-import camp.nextstep.edu.missionutils.Console;
+import java.util.Scanner;
 
 public class InputView {
+    Scanner scanner = new Scanner(System.in);
 
     public String getInput() {
-        return Console.readLine();
+        return scanner.next();
     }
 }
