@@ -6,11 +6,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CSVReader {
     private static final String CSV_DELIMITER = " ";
-    private final List<String[]> lists = new ArrayList<>();
+    private final List<String> names = new ArrayList<>();
 
     public CSVReader(String filePath) {
         Path path = Paths.get(filePath);
@@ -23,14 +24,11 @@ public class CSVReader {
     }
 
     private void makeList(BufferedReader reader) throws IOException {
-        String line;
-        while ((line = reader.readLine()) != null) {
-            String[] lineContents = line.split(CSV_DELIMITER);
-            lists.add(lineContents);
-        }
+        String line = reader.readLine();
+        Collections.addAll(names, line.split(CSV_DELIMITER));
     }
 
-    public List<String[]> getLists() {
-        return new ArrayList<>(lists);
+    public List<String> getNames() {
+        return new ArrayList<>(names);
     }
 }
