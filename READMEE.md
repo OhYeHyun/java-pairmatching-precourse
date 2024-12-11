@@ -12,8 +12,11 @@
 - Group
     - List<Crew>
 
-- CrewRepository
+- CrewByLevelRepository
     - Map<Crew, List<Crew>>
+
+- CrewByCourseRepository
+    - List<Crew> 
 
 - MatchingGenerator
     - 랜덤 List<Crew> 생성
