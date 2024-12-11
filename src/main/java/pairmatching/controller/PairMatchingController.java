@@ -24,14 +24,25 @@ public class PairMatchingController {
             String option = getOption();
             if (Objects.equals(option, "1")) {
                 boolean error = true;
-                while (error) {
+                boolean again = false;
+                outputView.displayCourse();
+                while (error || again) {
+                    again = false;
                     try {
                         String[] course = getCourse();
                         if (pairMatching.existCrews(course[0], course[1], course[2])) {
                             String answer = getAnswer();
                             if (Objects.equals(answer, "네")) {
                                 pairMatching.generateMatching(course[0], course[1], course[2]);
+                                outputView.displayResult(pairMatching.getResentResult());
                             }
+                            if (Objects.equals(answer, "아니오")) {
+                                again = true;
+                            }
+                        }
+                        if (!pairMatching.existCrews(course[0], course[1], course[2])) {
+                            pairMatching.generateMatching(course[0], course[1], course[2]);
+                            outputView.displayResult(pairMatching.getResentResult());
                         }
                         error = false;
                     } catch (IllegalArgumentException e) {
@@ -46,9 +57,10 @@ public class PairMatchingController {
                     try {
                         String[] course = getCourse();
                         if (!pairMatching.existCrews(course[0], course[1], course[2])) {
+                            error = false;
                             throw new IllegalArgumentException("[ERROR] 존재하지 않습니다.");
                         }
-                        outputView.displayResult(pairMatching.getResult());
+                        outputView.displayResult(pairMatching.getTargetResult(course[0], course[1], course[2]));
                         error = false;
                     } catch (IllegalArgumentException e) {
                         outputView.lineSpace();
@@ -57,6 +69,7 @@ public class PairMatchingController {
                 }
             }
             if (Objects.equals(option, "3")) {
+                outputView.promptClear();
                 pairMatching.clearCrews();
             }
             if (Objects.equals(option, "Q")) {
@@ -76,6 +89,7 @@ public class PairMatchingController {
                 String option = getInput();
                 return FormatValidator.validateOption(option);
             } catch (IllegalArgumentException e) {
+                outputView.lineSpace();
                 outputView.print(e.getMessage());
             }
         }
@@ -88,6 +102,7 @@ public class PairMatchingController {
                 String answer = getInput();
                 return FormatValidator.validateAnswer(answer);
             } catch (IllegalArgumentException e) {
+                outputView.lineSpace();
                 outputView.print(e.getMessage());
             }
         }
@@ -95,11 +110,11 @@ public class PairMatchingController {
     private String[] getCourse() {
         while (true) {
             try {
-                outputView.displayCourse();
                 outputView.promptCourse();
                 String course = getInput();
                 return FormatValidator.validateCourse(course);
             } catch (IllegalArgumentException e) {
+                outputView.lineSpace();
                 outputView.print(e.getMessage());
             }
         }
