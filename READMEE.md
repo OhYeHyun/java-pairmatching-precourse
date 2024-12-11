@@ -4,7 +4,10 @@
     - 파일 읽어와 List<String> 으로 저장
 
 - Course
-    - course, level, List<String>
+    - course, level
+
+- Level
+    - level, missions
 
 - Crew
     - course, name 을 갖는 객체
