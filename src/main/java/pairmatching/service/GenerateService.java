@@ -11,7 +11,7 @@ import java.util.Objects;
 public class GenerateService {
     private final CrewByCourseRepository crewByCourseRepository;
     private final CrewByLevelRepository crewByLevelRepository;
-    private List<Crew> newCrews = new ArrayList<>();
+    private List<Group> groups = new ArrayList<>();
 
     public GenerateService(CrewByCourseRepository crewByCourseRepository, CrewByLevelRepository crewByLevelRepository) {
         this.crewByCourseRepository = crewByCourseRepository;
@@ -22,11 +22,11 @@ public class GenerateService {
         int tryCount = 0;
         Map<Crew, List<Crew>> crewByLevel = crewByLevelRepository.getLevel(level);
 
-        List<Crew> tempCrews = new ArrayList<>();
+        List<Group> newGroups = new ArrayList<>();
         boolean duplication = true;
         while (duplication) {
-            tempCrews = MatchingGenerator.generate(crewByCourseRepository.getBackend());
-            List<Group> newGroups = createGroups(tempCrews);
+            List<Crew> tempCrews = MatchingGenerator.generate(crewByCourseRepository.getBackend());
+            newGroups = createGroups(tempCrews);
             duplication = isDuplicate(crewByLevel, newGroups);
 
             tryCount++;
@@ -34,18 +34,18 @@ public class GenerateService {
                 throw new IllegalArgumentException("[ERROR] 매칭할 수  없습니다.");
             }
         }
-        newCrews = tempCrews;
+        groups = newGroups;
     }
 
     public void generateFrontend(String level) {
         int tryCount = 0;
         Map<Crew, List<Crew>> crewByLevel = crewByLevelRepository.getLevel(level);
 
-        List<Crew> tempCrews = new ArrayList<>();
+        List<Group> newGroups = new ArrayList<>();
         boolean duplication = true;
         while (duplication) {
-            tempCrews = MatchingGenerator.generate(crewByCourseRepository.getFrontend());
-            List<Group> newGroups = createGroups(tempCrews);
+            List<Crew> tempCrews = MatchingGenerator.generate(crewByCourseRepository.getFrontend());
+            newGroups = createGroups(tempCrews);
             duplication = isDuplicate(crewByLevel, newGroups);
 
             tryCount++;
@@ -53,7 +53,7 @@ public class GenerateService {
                 throw new IllegalArgumentException("[ERROR] 매칭할 수  없습니다.");
             }
         }
-        newCrews = tempCrews;
+        groups = newGroups;
     }
 
     private boolean isDuplicate(Map<Crew, List<Crew>> crewByLevel, List<Group> newGroups) {
@@ -90,11 +90,7 @@ public class GenerateService {
         return newGroups;
     }
 
-    public void generateFrontend() {
-        newCrews = MatchingGenerator.generate(crewByCourseRepository.getFrontend());
-    }
-
-    public List<Crew> getNewCrews() {
-        return Collections.unmodifiableList(newCrews);
+    public List<Group> getGroups() {
+        return Collections.unmodifiableList(groups);
     }
 }
