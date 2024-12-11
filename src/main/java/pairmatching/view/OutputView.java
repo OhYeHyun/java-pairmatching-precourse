@@ -22,7 +22,7 @@ public class OutputView {
         print("Q. 종료");
     }
 
-    public void promptCourse() {
+    public void displayCourse() {
         lineSpace();
         print("#############################################");
         print("과정: 백엔드 | 프론트엔드");
@@ -33,8 +33,18 @@ public class OutputView {
         print("  - 레벨4: 성능개선 | 배포");
         print("  - 레벨5: ");
         print("############################################");
+    }
+
+    public void promptCourse() {
+        lineSpace();
         print("과정, 레벨, 미션을 선택하세요.");
         print("ex) 백엔드, 레벨1, 자동차경주");
+    }
+
+    public void promptAnswer() {
+        lineSpace();
+        print("매칭 정보가 있습니다. 다시 매칭하시겠습니까?");
+        print("네 | 아니오");
     }
 
     public void displayResult(List<Group> crews) {
