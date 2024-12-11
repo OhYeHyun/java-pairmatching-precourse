@@ -32,7 +32,7 @@ public class PairMatching {
         Level level5 = new Level("레벨5", List.of());
 
         backend = new Course("백엔드", List.of(level1, level2, level3, level4, level5));
-        frontend = new Course("백엔드", List.of(level1, level2, level3, level4, level5));
+        frontend = new Course("프론트엔드", List.of(level1, level2, level3, level4, level5));
     }
 
     public void initializeCrews() {
@@ -81,13 +81,14 @@ public class PairMatching {
         return generateService.getGroups();
     }
 
-    public boolean existCurse(String course) {
+    private boolean existCourse(String course) {
         return Objects.equals(backend.getName(), course) || Objects.equals(frontend.getName(), course);
     }
 
     private void validateCourse(String course, String level, String mission) {
         try {
-            if (!existCurse(course)) {
+            if (!existCourse(course)) {
+                System.out.println("1");
                 throw new NoSuchElementException();
             }
             if (Objects.equals(course, "백엔드")) {

@@ -16,7 +16,6 @@ public class CSVReader {
     public CSVReader(String filePath) {
         Path path = Paths.get(filePath);
         try (BufferedReader reader = Files.newBufferedReader(path)) {
-            reader.readLine();
             makeList(reader);
         } catch (IOException e) {
             e.printStackTrace();
@@ -24,8 +23,10 @@ public class CSVReader {
     }
 
     private void makeList(BufferedReader reader) throws IOException {
-        String line = reader.readLine();
-        Collections.addAll(names, line.split(CSV_DELIMITER));
+        String line;
+        while ((line = reader.readLine()) != null) {
+            Collections.addAll(names, line.split(CSV_DELIMITER));
+        }
     }
 
     public List<String> getNames() {
