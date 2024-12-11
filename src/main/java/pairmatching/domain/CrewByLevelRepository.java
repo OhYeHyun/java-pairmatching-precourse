@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public class CrewRepository {
-    private static final CrewRepository instance = new CrewRepository();
+public class CrewByLevelRepository {
+    private static final CrewByLevelRepository instance = new CrewByLevelRepository();
 
     private static final Map<Crew, List<Crew>> level1 = new HashMap<>();
     private static final Map<Crew, List<Crew>> level2 = new HashMap<>();
@@ -14,9 +14,9 @@ public class CrewRepository {
     private static final Map<Crew, List<Crew>> level4 = new HashMap<>();
     private static final Map<Crew, List<Crew>> level5 = new HashMap<>();
 
-    private CrewRepository() {}
+    private CrewByLevelRepository() {}
 
-    public static CrewRepository getInstance() {
+    public static CrewByLevelRepository getInstance() {
         return instance;
     }
 
