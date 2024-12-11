@@ -6,6 +6,9 @@ import pairmatching.domain.Group;
 import pairmatching.domain.Level;
 import pairmatching.domain.Mission;
 
+import java.sql.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -25,14 +28,14 @@ public class PairMatching {
     }
 
     public void initializeCourse() {
-        Level level1 = new Level("레벨1", List.of(new Mission("자동차경주"), new Mission("로또"), new Mission("숫자야구게임")));
-        Level level2 = new Level("레벨2", List.of(new Mission("장바구니"), new Mission("결제"), new Mission("지하철노선도")));
-        Level level3 = new Level("레벨3", List.of());
-        Level level4 = new Level("레벨4", List.of(new Mission("성능개선"), new Mission("배포")));
-        Level level5 = new Level("레벨5", List.of());
+        Level level1 = new Level("레벨1", Arrays.asList(new Mission("자동차경주"), new Mission("로또"), new Mission("숫자야구게임")));
+        Level level2 = new Level("레벨2", Arrays.asList(new Mission("장바구니"), new Mission("결제"), new Mission("지하철노선도")));
+        Level level3 = new Level("레벨3", Arrays.asList());
+        Level level4 = new Level("레벨4", Arrays.asList(new Mission("성능개선"), new Mission("배포")));
+        Level level5 = new Level("레벨5", Arrays.asList());
 
-        backend = new Course("백엔드", List.of(level1, level2, level3, level4, level5));
-        frontend = new Course("프론트엔드", List.of(level1, level2, level3, level4, level5));
+        backend = new Course("백엔드", Arrays.asList(level1, level2, level3, level4, level5));
+        frontend = new Course("프론트엔드", Arrays.asList(level1, level2, level3, level4, level5));
     }
 
     public void initializeCrews() {
@@ -49,6 +52,12 @@ public class PairMatching {
 
     public void clearCrews() {
         repositoryService.clear();
+        backend.getLevels().forEach(level -> {
+            level.getMissions().forEach(mission -> mission.clear());
+        });
+        frontend.getLevels().forEach(level -> {
+            level.getMissions().forEach(mission -> mission.clear());
+        });
     }
 
     public boolean existCrews(String course, String level, String mission) {
@@ -77,8 +86,15 @@ public class PairMatching {
         }
     }
 
-    public List<Group> getResult() {
+    public List<Group> getResentResult() {
         return generateService.getGroups();
+    }
+
+    public List<Group> getTargetResult(String course, String level, String mission) {
+        if (Objects.equals(course, "백엔드")) {
+            return backend.findLevel(level).findMission(mission).getCrews();
+        }
+        return frontend.findLevel(level).findMission(mission).getCrews();
     }
 
     private boolean existCourse(String course) {

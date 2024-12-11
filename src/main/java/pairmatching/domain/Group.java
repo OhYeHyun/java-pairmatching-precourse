@@ -1,6 +1,5 @@
 package pairmatching.domain;
 
-import java.util.Collections;
 import java.util.List;
 
 public class Group {
@@ -11,6 +10,6 @@ public class Group {
     }
 
     public List<Crew> getGroup() {
-        return Collections.unmodifiableList(group);
+        return group;
     }
 }

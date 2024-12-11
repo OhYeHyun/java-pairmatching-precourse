@@ -1,7 +1,6 @@
 package pairmatching.domain;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CrewByCourseRepository {
@@ -24,15 +23,10 @@ public class CrewByCourseRepository {
         frontend.add(crew);
     }
 
-    public void clear() {
-        backend.clear();
-        frontend.clear();
-    }
-
     public List<Crew> getBackend() {
-        return Collections.unmodifiableList(backend);
+        return backend;
     }
     public List<Crew> getFrontend() {
-        return Collections.unmodifiableList(frontend);
+        return frontend;
     }
 }

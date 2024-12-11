@@ -1,6 +1,5 @@
 package pairmatching.domain;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,6 +24,6 @@ public class Course {
     }
 
     public List<Level> getLevels() {
-        return Collections.unmodifiableList(levels);
+        return levels;
     }
 }

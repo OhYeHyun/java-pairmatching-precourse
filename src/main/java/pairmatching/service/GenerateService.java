@@ -1,6 +1,10 @@
 package pairmatching.service;
 
-import pairmatching.domain.*;
+import pairmatching.domain.Crew;
+import pairmatching.domain.CrewByCourseRepository;
+import pairmatching.domain.CrewByLevelRepository;
+import pairmatching.domain.Group;
+import pairmatching.domain.MatchingGenerator;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +35,7 @@ public class GenerateService {
 
             tryCount++;
             if (tryCount == 3) {
-                throw new IllegalArgumentException("[ERROR] 매칭할 수  없습니다.");
+                throw new IllegalArgumentException("[ERROR] 매칭할 수 없습니다.");
             }
         }
         groups = newGroups;
@@ -57,16 +61,19 @@ public class GenerateService {
     }
 
     private boolean isDuplicate(Map<Crew, List<Crew>> crewByLevel, List<Group> newGroups) {
-        for (Group group : newGroups) {
-            for (Crew crew : group.getGroup()) {
-                List<Crew> newOthers = group.getGroup().stream().filter(crews -> !Objects.equals(crew, crews)).toList();
-                List<Crew> others = crewByLevel.get(crew);
+        if (!crewByLevel.isEmpty()) {
+            for (Group group : newGroups) {
+                for (Crew crew : group.getGroup()) {
+                    List<Crew> newOthers = group.getGroup().stream().filter(crews -> !Objects.equals(crew, crews)).toList();
+                    List<Crew> others = new ArrayList<>(crewByLevel.get(crew));
 
-                int targetSize = newOthers.size() + others.size();
-                int size = (int) List.of(others.addAll(newOthers)).stream().distinct().count();
+                    int targetSize = newOthers.size() + others.size();
+                    others.addAll(newOthers);
+                    int size = (int) others.stream().distinct().count();
 
-                if (targetSize != size) {
-                    return true;
+                    if (targetSize != size) {
+                        return true;
+                    }
                 }
             }
         }
@@ -79,11 +86,11 @@ public class GenerateService {
         for (int i = 0; i < crews.size(); i++) {
             if (i % 2 == 0) {
                 if (crews.size() - i == 3) {
-                    newGroups.add(new Group(crews.subList(i, i + 2)));
+                    newGroups.add(new Group(crews.subList(i, i + 3)));
                     break;
                 }
                 if (crews.size() - i != 3) {
-                    newGroups.add(new Group(crews.subList(i, i + 1)));
+                    newGroups.add(new Group(crews.subList(i, i + 2)));
                 }
             }
         }
@@ -91,6 +98,6 @@ public class GenerateService {
     }
 
     public List<Group> getGroups() {
-        return Collections.unmodifiableList(groups);
+        return groups;
     }
 }

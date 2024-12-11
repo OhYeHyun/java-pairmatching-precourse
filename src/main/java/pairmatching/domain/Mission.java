@@ -19,7 +19,15 @@ public class Mission {
         return !crews.isEmpty();
     }
 
+    public void clear() {
+        crews.clear();
+    }
+
     public String getName() {
         return name;
+    }
+
+    public List<Group> getCrews() {
+        return crews;
     }
 }

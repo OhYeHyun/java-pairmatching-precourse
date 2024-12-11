@@ -18,15 +18,14 @@ public class RepositoryService {
     }
 
     public void addBackend(String name) {
-        crewByCourseRepository.addBackend(new Crew("백엔드", name));
+        crewByCourseRepository.addBackend(new Crew(name, "백엔드"));
     }
 
     public void addFrontend(String name) {
-        crewByCourseRepository.addFrontend(new Crew("프론트엔드", name));
+        crewByCourseRepository.addFrontend(new Crew(name, "프론트엔드"));
     }
 
     public void clear() {
-        crewByCourseRepository.clear();
         crewByLevelRepository.clear();
     }
 
