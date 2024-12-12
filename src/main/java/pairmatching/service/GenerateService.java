@@ -7,7 +7,6 @@ import pairmatching.domain.Group;
 import pairmatching.domain.MatchingGenerator;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -29,7 +28,7 @@ public class GenerateService {
         List<Group> newGroups = new ArrayList<>();
         boolean duplication = true;
         while (duplication) {
-            List<Crew> tempCrews = MatchingGenerator.generate(crewByCourseRepository.getBackend());
+            List<Crew> tempCrews = generateBackend(crewByCourseRepository.getBackend());
             newGroups = createGroups(tempCrews);
             duplication = isDuplicate(crewByLevel, newGroups);
 
@@ -48,7 +47,7 @@ public class GenerateService {
         List<Group> newGroups = new ArrayList<>();
         boolean duplication = true;
         while (duplication) {
-            List<Crew> tempCrews = MatchingGenerator.generate(crewByCourseRepository.getFrontend());
+            List<Crew> tempCrews = generateFrontend(crewByCourseRepository.getFrontend());
             newGroups = createGroups(tempCrews);
             duplication = isDuplicate(crewByLevel, newGroups);
 
@@ -58,6 +57,20 @@ public class GenerateService {
             }
         }
         groups = newGroups;
+    }
+
+    private List<Crew> generateBackend(List<Crew> crews) {
+        List<?> shuffled = MatchingGenerator.generate(crews);
+        return shuffled.stream()
+                .map(string -> crewByCourseRepository.findBackendCrew((String) string))
+                .toList();
+    }
+
+    private List<Crew> generateFrontend(List<Crew> crews) {
+        List<?> shuffled = MatchingGenerator.generate(crews);
+        return shuffled.stream()
+                .map(string -> crewByCourseRepository.findFrontendCrew((String) string))
+                .toList();
     }
 
     private boolean isDuplicate(Map<Crew, List<Crew>> crewByLevel, List<Group> newGroups) {

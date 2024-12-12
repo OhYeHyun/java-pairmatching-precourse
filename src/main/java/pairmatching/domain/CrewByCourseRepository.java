@@ -2,6 +2,7 @@ package pairmatching.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CrewByCourseRepository {
     private static final CrewByCourseRepository instance = new CrewByCourseRepository();
@@ -21,6 +22,20 @@ public class CrewByCourseRepository {
 
     public void addFrontend(Crew crew) {
         frontend.add(crew);
+    }
+
+    public Crew findBackendCrew(String name) {
+        return backend.stream()
+                .filter(crew -> Objects.equals(crew.getName(), name))
+                .findAny()
+                .get();
+    }
+
+    public Crew findFrontendCrew(String name) {
+        return frontend.stream()
+                .filter(crew -> Objects.equals(crew.getName(), name))
+                .findAny()
+                .get();
     }
 
     public List<Crew> getBackend() {
